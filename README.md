@@ -14,6 +14,6 @@ We designed rshell by creating a UML diagram:
 
 ![uml](https://cloud.githubusercontent.com/assets/23230349/25933635/286c87ca-35cd-11e7-85ea-9c5d6e026796.png)
 
-We ended up not using everything on the UML diagram. We did not use double command and comments. We renamed execute to main.
+We ended up not using everything on the UML diagram. We did not use double command and comment. We renamed execute to main.
 
 # Known rshell bugs
