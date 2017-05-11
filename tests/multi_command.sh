@@ -10,3 +10,4 @@ ls || touch readme
 
 ls; echo hi
 touch readme; echo killme
+echo a || echo b && echo c
