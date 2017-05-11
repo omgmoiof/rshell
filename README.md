@@ -12,3 +12,4 @@ It can also execute with commands with comments buy using the `#`
 To exit rshell, type `exit` into the command line
 
 
+# Known rshell bugs
