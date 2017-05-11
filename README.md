@@ -1,11 +1,11 @@
 # rshell
 
 
-rshell is a program that functions like the Unix terminal but with limitations. The rshell program is able to excute simple commands such as: `ls, pwd, mkdir, rm, echo`. 
+rshell is a program that functions like the Unix terminal but with limitations. The rshell program is able to excute simple commands such as: `ls, pwd, mkdir, rm,` and `echo`. 
 
 rshell has a command prompt that looks like: `$`
 
-rshell is able to execute commands with connectors such as: `&&, ||, ;`
+rshell is able to execute commands with connectors such as: `&&, ||,` and`;`
 
 It can also execute with commands with comments buy using the `#`
 
