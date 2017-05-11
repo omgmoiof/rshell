@@ -2,8 +2,8 @@
 CC = g++
 CC_FLAGS = -Wall -ansi
 EXEC = bin/rshell
-SOURCES = $(wildcard src/*.cpp)
-OBJECTS = $(SOURCES: src/.cpp=.o)
+SOURCES = $(wildcard ./src/*.cpp)
+OBJECTS = $(SOURCES: ./src/.cpp=.o)
 
 $(EXEC): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $(EXEC)
