@@ -17,3 +17,9 @@ We designed rshell by creating a UML diagram:
 We ended up not using everything on the UML diagram. We did not use double command and comment. We renamed execute to main.
 
 # Known rshell bugs
+
+If there is nothing before the connector, it does not print out an error message. For example: `&& echo a` does not print out and error and `|| echo b` does not print out an error. It executes `echo b`
+
+There is a segfault if you leave the second argument empty for `&&`. Example: `echo a &&` gives a segfault
+
+The `||` does not require a second argument. `echo a ||` works
