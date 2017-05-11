@@ -1,15 +1,14 @@
+CC=g++
+CFLAGS= -Wall -Werror -ansi -pedantic
+LDFLAGS=
+SOURCES= ./src/*.cpp
+OUTFILE = bin/rshell
 
-CC = g++
-CC_FLAGS = -Wall -ansi
-EXEC = bin/rshell
-SOURCES = $(wildcard ./src/*.cpp)
-OBJECTS = $(SOURCES: ./src/.cpp=.o)
 
-$(EXEC): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(EXEC)
 
-%.o: %.cpp
-	$(CC) -c $(CC_FLAGS) $< -o $@
+all: rshell
 
-clean:
-	rm -f $(EXEC) $(OBJECTS)
+rshell:
+	if [ ! -d bin ]; then mkdir bin; fi
+	$(CC) $(CFLAGS) $(SOURCES) \
+	-o $(OUTFILE)
