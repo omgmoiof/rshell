@@ -1,14 +1,13 @@
 #include "And.h"
 
-class And : public Connector
-{
-    And(Runcmd* r, Runcmd* l) : Connector("&&",r,l)
+
+    And::And(Runcmd* r, Runcmd* l) : Connector("&&",r,l)
     {
         
         
     }
     
-    bool run()
+    bool And::run()
     {
         if (lhs == NULL) return false;
         else if (rhs == NULL)
@@ -19,4 +18,3 @@ class And : public Connector
         else return lhs->run() && rhs->run();
         
     }
-}
