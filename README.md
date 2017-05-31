@@ -18,7 +18,7 @@ We ended up not using everything on the UML diagram. We did not use double comma
 
 # test function
 
-We added the test function of the rshell. We used the cmd and a vector of strings to implement the test function. We used the `stat()` function with the S_ISDIR and S_ISREG macros to implement the `test` function of rshell with the use of the `-e`, `-f`, and the `-d` flags.
+We added the test function of the rshell. We used the cmd and a vector of strings to implement the test function. We used the `stat()` function with the `S_ISDIR` and `S_ISREG` macros to implement the `test` function of rshell with the use of the `-e`, `-f`, and the `-d` flags.
 
 # Known rshell bugs
 
