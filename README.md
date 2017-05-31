@@ -27,3 +27,5 @@ If there is nothing before the connector, it does not print out an error message
 There is a segfault if you leave the second argument empty for `&&`. Example: `echo a &&` gives a segfault
 
 The `||` does not require a second argument. `echo a ||` works
+
+For the symbolic test, `[` and `]`, there has to be a space after `[` and a space before `]`
