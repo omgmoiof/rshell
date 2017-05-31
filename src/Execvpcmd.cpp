@@ -13,7 +13,7 @@ bool Execvpcmd::run()
 {
    stringstream s;
    s.str(cmd);
-   vector<string> a;
+   vector<string> a; //puts the commands in a vector of strings
    string m, n;
    s >> m;
    a.push_back(m);
@@ -23,6 +23,7 @@ bool Execvpcmd::run()
    }
    
    char ** b = new char * [a.size() + 1];
+   
    for (unsigned i = 0; i < a.size(); i++)
    {
        b[i] = (char *)(a[i].c_str());
@@ -31,91 +32,90 @@ bool Execvpcmd::run()
    b[a.size()] = NULL;
 
    
-               string flag;
-            string directory;
-            if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && a.size() > 1){
-                //do the test command stuff
-                if(a.size() == 2){
-                    flag = "-e";
-                    directory = a.at(1);
-                }
-                else{
-                    flag = a.at(1);
-                    directory = a.at(2);
-                }
-                struct stat sb;
-                //const char* dir = new char[directory.size() + 1];
-                char temp[1024];
-                strcpy(temp, directory.c_str());
-                const char* dir = temp;
-                if(stat(dir, &sb) == -1){
-                    cout << "(False)" << endl;
-                    return false;
-                }
-                if(flag == "-f"){
-                    if(S_ISREG(sb.st_mode)){
-                        cout << "(True)" << endl;
-                        return true;
-                    }
-                    cout << "(False)" << endl;
-                    return false;
-                }
-                else if(flag == "-d"){
-                    if(S_ISDIR(sb.st_mode)){
-                        cout << "(True)" << endl;
-                        return true;
-                    }
-                    cout << "(False)" << endl;
-                    return false;
-                }
-                cout << "(True)" << endl;
+    string flag; //for detection of the -e, -f, and -d flags
+    string info;
+    
+    if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && a.size() > 1)
+    {
+                
+        if(a.size() != 2)
+        {
+            flag = a.at(1);
+            info = a.at(2);
+        }
+        
+        else
+        {
+                    
+            flag = "-e";
+            info = a.at(1);
+        }
+                
+        struct stat testf;
+        char temp[1024];
+        strcpy(temp, info.c_str());
+        const char* path = temp;
+                
+        if(stat(path, &testf) == -1) //Checks if the file or info exists
+        {
+            cout << "(False)" << endl;  //Prints out (False) if it does not exists
+            return false;
+        }
+        
+        if(flag == "-f")
+        {
+            if(S_ISREG(testf.st_mode) == false)   //Checks if it exists and is a file
+            {
+                cout << "(False)" << endl; //Prints out (False) if it does not exists or is not a file
+                return false;
+
+            }
+                cout << "(True)" << endl;  //Prints out (True) if it exists and is a file
+                return true;
+                
+        }
+        else if(flag == "-d")
+        {
+            if(S_ISDIR(testf.st_mode))  //Checks if it exists and is a info
+            {
+                cout << "(True)" << endl; //Prints out (True) if it exists and is a info
                 return true;
             }
-            //size of argv
-            int size = a.size() + 2;
-            //
-            char **argv = new char*[a.size() + 2];
-            char *tempcmd = new char[cmd.size()];
-            strcpy(tempcmd, cmd.c_str());
-            argv[0] = tempcmd;
-            for(unsigned i = 0; i < a.size(); ++i){
-                char *temparg = new char[a.at(i).size()];
-                strcpy(temparg, a.at(i).c_str());
-                argv[i + 1] = temparg;
-            }
-            argv[size - 1] = NULL;
+            cout << "(False)" << endl;  //Prints out (False) if it does not exists or is not a info
+            return false;
+        }
+        
+        cout << "(True)" << endl;  //Prints out (True) if it does exist
+        return true;
+    }
 
-   
-   
+
   
-   int error;
+  int error;
   
   int pid = fork();
-    switch(pid)
+    switch(pid) //makes parent and child
     {
         
-        case -1:
-        perror("Error in forking");
-       return 0;
+        case -1: //Forking fail
+            perror("Error in forking");
+            return 0;
         
-        case 0:
+        case 0: //creates parent and child
         
-         execvp(m.c_str(), b);
-       perror(cmd.c_str());
-       exit(0);
+            execvp(m.c_str(), b);
+            perror(cmd.c_str());
+            exit(0);
        
        default:
         
-         if (waitpid(pid, &error, 0) == -1)
-       {
-           perror("Error in wait");
-           return 0;
-       }
+            if (waitpid(pid, &error, 0) == -1) //wait until parent/child dies
+            {
+                   perror("Error in wait"); //wait fails
+                   return 0;
+            }
        
        return error == 0;
         
     }
-
- 
-    
 }
