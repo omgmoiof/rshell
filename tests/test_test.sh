@@ -50,3 +50,14 @@ test -d fakedirectory || echo true
 test -e realdirectory || echo true
 test -f realdirectory || echo true
 test -d realdirectory || echo true
+
+test file1 file2
+test -e file1 file2
+test -f file1 file2
+test -d file1 file2
+
+test directory1 directory2
+test -e directory1 directory2
+test -f directory1 directory2
+test -d directory1 directory2
+
