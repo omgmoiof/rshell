@@ -29,6 +29,63 @@ bool Execvpcmd::run()
    }
    
    b[a.size()] = NULL;
+
+   
+               string flag;
+            string directory;
+            if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && a.size() > 1){
+                //do the test command stuff
+                if(a.size() == 2){
+                    flag = "-e";
+                    directory = a.at(1);
+                }
+                else{
+                    flag = a.at(1);
+                    directory = a.at(2);
+                }
+                struct stat sb;
+                //const char* dir = new char[directory.size() + 1];
+                char temp[1024];
+                strcpy(temp, directory.c_str());
+                const char* dir = temp;
+                if(stat(dir, &sb) == -1){
+                    cout << "(False)" << endl;
+                    return false;
+                }
+                if(flag == "-f"){
+                    if(S_ISREG(sb.st_mode)){
+                        cout << "(True)" << endl;
+                        return true;
+                    }
+                    cout << "(False)" << endl;
+                    return false;
+                }
+                else if(flag == "-d"){
+                    if(S_ISDIR(sb.st_mode)){
+                        cout << "(True)" << endl;
+                        return true;
+                    }
+                    cout << "(False)" << endl;
+                    return false;
+                }
+                cout << "(True)" << endl;
+                return true;
+            }
+            //size of argv
+            int size = a.size() + 2;
+            //
+            char **argv = new char*[a.size() + 2];
+            char *tempcmd = new char[cmd.size()];
+            strcpy(tempcmd, cmd.c_str());
+            argv[0] = tempcmd;
+            for(unsigned i = 0; i < a.size(); ++i){
+                char *temparg = new char[a.at(i).size()];
+                strcpy(temparg, a.at(i).c_str());
+                argv[i + 1] = temparg;
+            }
+            argv[size - 1] = NULL;
+
+   
    
   
    int error;
