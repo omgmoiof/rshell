@@ -16,10 +16,16 @@ We designed rshell by creating a UML diagram:
 
 We ended up not using everything on the UML diagram. We did not use double command and comment. We renamed execute to main.
 
+# test function
+
+We added the test function of the rshell. We used the cmd and a vector of strings to implement the test function. We used the `stat()` function with the `S_ISDIR` and `S_ISREG` macros to implement the `test` function of rshell with the use of the `-e`, `-f`, and the `-d` flags.
+
 # Known rshell bugs
 
-If there is nothing before the connector, it does not print out an error message. For example: `&& echo a` does not print out and error and `|| echo b` does not print out an error. It executes `echo b`
+If there is nothing before the connector, it does not print out an error message. For example: `&& echo a` does not print out an error and `|| echo b` does not print out an error. It executes `echo b`
 
 There is a segfault if you leave the second argument empty for `&&`. Example: `echo a &&` gives a segfault
 
 The `||` does not require a second argument. `echo a ||` works
+
+For the symbolic test, `[` and `]`, there has to be a space after `[` and a space before `]`

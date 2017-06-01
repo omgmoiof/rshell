@@ -23,37 +23,97 @@ bool Execvpcmd::run()
    }
    
    char ** b = new char * [a.size() + 1];
+   
    for (unsigned i = 0; i < a.size(); i++)
    {
        b[i] = (char *)(a[i].c_str());
    }
    
    b[a.size()] = NULL;
+
    
+    string flag;
+    string info;
+    
+    if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && a.size() > 1)
+    {
+                
+        if(a.size() != 2)
+        {
+            flag = a.at(1);
+            info = a.at(2);
+        }
+        
+        else
+        {
+                    
+            flag = "-e"; //if e flag is detected
+            info = a.at(1);
+        }
+                
+        struct stat testf;
+        char temp[1024];
+        strcpy(temp, info.c_str());
+        const char* path = temp;
+                
+        if(stat(path, &testf) == -1) //Checks if the file or info exists
+        {
+            cout << "(False)" << endl;  //Prints out (False) if it does not exists
+            return false;
+        }
+        
+        if(flag == "-f") //if f flag is detected
+        {
+            if(S_ISREG(testf.st_mode) == false)   //Checks if it exists and is a file
+            {
+                cout << "(False)" << endl; //Prints out (False) if it does not exists or is not a file
+                return false;
+
+            }
+                cout << "(True)" << endl;  //Prints out (True) if it exists and is a file
+                return true;
+                
+        }
+        else if(flag == "-d") //if d flag is detected
+        {
+            if(S_ISDIR(testf.st_mode))  //Checks if it exists and is a info
+            {
+                cout << "(True)" << endl; //Prints out (True) if it exists and is a info
+                return true;
+            }
+            cout << "(False)" << endl;  //Prints out (False) if it does not exists or is not a info
+            return false;
+        }
+        
+        cout << "(True)" << endl;  //Prints out (True) if it does exist
+        return true;
+    }
+
+
   
-   int error;
+  int error;
   
-  int pid = fork();
+  int pid = fork();  //Creates parent and child
     switch(pid)
     {
         
         case -1:
-        perror("Error in forking");
-       return 0;
+            perror("Error in forking"); //Forking fails
+            return 0;
         
         case 0:
         
-         execvp(m.c_str(), b);
-       perror(cmd.c_str());
-       exit(0);
+            execvp(m.c_str(), b); //Executes parent/child process
+            perror(cmd.c_str());
+            exit(0);
        
        default:
         
-         if (waitpid(pid, &error, 0) == -1)
-       {
-           perror("Error in wait");
-           return 0;
-       }
+            if (waitpid(pid, &error, 0) == -1) // Waits for parent/child process to finish
+            {
+                   perror("Error in wait"); //waits fails
+                   return 0;
+            }
        
        return error == 0;
         
