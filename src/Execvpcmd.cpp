@@ -13,7 +13,7 @@ bool Execvpcmd::run()
 {
    stringstream s;
    s.str(cmd);
-   vector<string> a; //puts the commands in a vector of strings
+   vector<string> a;
    string m, n;
    s >> m;
    a.push_back(m);
@@ -32,7 +32,7 @@ bool Execvpcmd::run()
    b[a.size()] = NULL;
 
    
-    string flag; //for detection of the -e, -f, and -d flags
+    string flag;
     string info;
     
     if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && a.size() > 1)
@@ -47,7 +47,7 @@ bool Execvpcmd::run()
         else
         {
                     
-            flag = "-e";
+            flag = "-e"; //if e flag is detected
             info = a.at(1);
         }
                 
@@ -62,7 +62,7 @@ bool Execvpcmd::run()
             return false;
         }
         
-        if(flag == "-f")
+        if(flag == "-f") //if f flag is detected
         {
             if(S_ISREG(testf.st_mode) == false)   //Checks if it exists and is a file
             {
@@ -74,7 +74,7 @@ bool Execvpcmd::run()
                 return true;
                 
         }
-        else if(flag == "-d")
+        else if(flag == "-d") //if d flag is detected
         {
             if(S_ISDIR(testf.st_mode))  //Checks if it exists and is a info
             {
@@ -93,29 +93,32 @@ bool Execvpcmd::run()
   
   int error;
   
-  int pid = fork();
-    switch(pid) //makes parent and child
+  int pid = fork();  //Creates parent and child
+    switch(pid)
     {
         
-        case -1: //Forking fail
-            perror("Error in forking");
+        case -1:
+            perror("Error in forking"); //Forking fails
             return 0;
         
-        case 0: //creates parent and child
+        case 0:
         
-            execvp(m.c_str(), b);
+            execvp(m.c_str(), b); //Executes parent/child process
             perror(cmd.c_str());
             exit(0);
        
        default:
         
-            if (waitpid(pid, &error, 0) == -1) //wait until parent/child dies
+            if (waitpid(pid, &error, 0) == -1) // Waits for parent/child process to finish
             {
-                   perror("Error in wait"); //wait fails
+                   perror("Error in wait"); //waits fails
                    return 0;
             }
        
        return error == 0;
         
     }
+
+ 
+    
 }
