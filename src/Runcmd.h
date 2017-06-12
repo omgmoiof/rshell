@@ -3,6 +3,21 @@
 
 #include <string>
 #include <stdlib.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstring>
+#include <string.h>
+#include <stdio.h>
+#include <sstream>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <stack>
+#include <algorithm>
+#include <fcntl.h>
+#include <math.h>
 
 class Runcmd
 {
@@ -10,6 +25,7 @@ class Runcmd
         Runcmd();
         ~Runcmd();
         virtual bool run() = 0;
+        virtual std::string getCmd() = 0;
     
 };
 #endif
