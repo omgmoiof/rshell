@@ -26,7 +26,7 @@ We added the test function of the rshell. We used the cmd and a vector of string
 
 # Redirection
 
-`rshell` is able to handle the input redirection, `<`, output redirection, `>` and `>>`, and piping `|`. 
+`rshell` is able to handle the input redirection, `<`, output redirection, `>` and `>>`, and piping ,`|`. 
 
 # Known rshell bugs
 
