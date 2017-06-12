@@ -14,3 +14,5 @@
        
         
     }
+    
+    std::string Connector::getCmd() {return "";}
