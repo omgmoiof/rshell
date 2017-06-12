@@ -13,7 +13,7 @@
             int fd[2];
             pipe(fd);
 
-            int saveStdout = dup(1);
+            int sout = dup(1);
 
             
             if(-1 == dup2(fd[1], 1))
@@ -32,7 +32,7 @@
             }
             
             
-            int saveStdin = dup(0);
+            int sdin = dup(0);
 
             
             if(-1 == dup2(fd[0], 0))
@@ -40,8 +40,9 @@
 	        	perror("There was an error with dup2");
 		    
             }
-      
-            if(-1 == dup2(saveStdout, 1))
+
+            
+            if(-1 == dup2(sout, 1))
             {
 	        	perror("There was an error with dup2");
 		    
@@ -57,7 +58,7 @@
             }
 
             
-            if(-1 == dup2(saveStdin, 0))
+            if(-1 == dup2(sdin, 0))
             {
 	        	perror("There was an error with dup2");
 		    
