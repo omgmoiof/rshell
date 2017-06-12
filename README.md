@@ -24,6 +24,10 @@ We added the test function of the rshell. We used the cmd and a vector of string
 
 `rshell` has the precedence operators: `(` and `)`. You can use it with conjunction with the `test` command.
 
+# Redirection
+
+`rshell` is able to handle the input redirection, `<`, output redirection, `>` and `>>`, and piping `|`. 
+
 # Known rshell bugs
 
 If there is nothing before the connector, it does not print out an error message. For example: `&& echo a` does not print out an error and `|| echo b` does not print out an error. It executes `echo b`
