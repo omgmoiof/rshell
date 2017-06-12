@@ -1,42 +1,14 @@
+#ifndef DoubleGreaterThan_H
+#define DoubleGreaterThan_H
 
-#include "DoubleGreaterThan.h"
+#include "Connector.h"
 
-
-    DoubleGreaterThan::DoubleGreaterThan(Runcmd* r, Runcmd* l) : Connector(">>",r,l)
-    {
-        
-        
-    }
+class DoubleGreaterThan : public Connector
+{
+    public:
+        DoubleGreaterThan(Runcmd*,Runcmd*);
+        bool run();
     
-    bool DoubleGreaterThan::run()
-    {
+};
 
-            char file[256];
-            strcpy(file, rhs->getCmd().c_str());
-            int redir;
-            if((redir = open(file, O_RDWR | O_APPEND | O_CREAT , S_IRUSR | S_IWUSR | S_IROTH | S_IRGRP )) == -1)
-            {
-    				perror("Error with output redirection"); //error message with output redirection
-    				return false;
-
-    		}
-    		
-            int saveStdout = dup(1);
-
-            if(-1 == dup2(redir, 1))
-            {
-	        	perror("There was an error with dup2");
-		    
-            }
-            lhs->run();
-
-            
-            if(-1 == dup2(saveStdout, 1))
-            {
-	        	perror("There was an error with dup2");
-		    
-            }
-            
-            return true;
-        
-    }
+#endif
