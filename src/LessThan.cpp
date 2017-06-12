@@ -18,7 +18,7 @@
 				return false;
 			}
 			
-			int saveSTDin = dup(0);
+			int sd = dup(0);
 			if(-1 == dup2(redir, 0))
             {
 	        	perror("There was an error with dup2");
@@ -28,7 +28,7 @@
 			
 			lhs->run();
 			
-			if(-1 == dup2(saveSTDin, 0))
+			if(-1 == dup2(sd, 0))
             {
 	        	perror("There was an error with dup2");
 		    
