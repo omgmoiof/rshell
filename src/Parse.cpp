@@ -7,13 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stack>
-
-
-
 #include <sys/types.h>
-
 #include <unistd.h>
-//#define delimitor ";#"                    // token separators
 
 using namespace std;
 
@@ -89,7 +84,7 @@ Runcmd* Parse::parse(string& s)
             
         }
         
-        if(s.at(i) == ';' )
+        if(s.at(i) == ';' ) //checks for semi colon
         {
             
             int size = s.length();
@@ -103,7 +98,7 @@ Runcmd* Parse::parse(string& s)
             return b;
         }
         
-        if (s.at(i) == '|' && s.at(i+1) == '|')
+        if (s.at(i) == '|' && s.at(i+1) == '|') // checks of or is inputed
         {
             
             int size = s.length();
@@ -117,7 +112,69 @@ Runcmd* Parse::parse(string& s)
             
         }
         
-        if (s.at(i) == '&' && s.at(i+1) == '&')
+        if (s.at(i) == '|' && s.at(i+1) != '|') // checks of piping is inputed
+        {
+            
+            int size = s.length();
+
+            string lhs = s.substr(0,i);
+            string rhs = s.substr(i+1,size);
+            
+            Stick* x;
+            if (par) x = new Stick(parse(rhs),parse(parenth_part));
+            else x = new Stick(parse(rhs),parse(lhs));
+            return x;
+            
+        }
+        
+        if(s.at(i) == '<' ) // checks if input redirection is inputted
+        {
+            
+            int size = s.length();
+
+            string lhs = s.substr(0,i);
+            string rhs = s.substr(i+1,size);
+            
+            LessThan* y;
+            if (par) y = new LessThan(parse(rhs),parse(parenth_part));
+            else y = new LessThan(parse(rhs),parse(lhs));
+            return y;
+        }
+        
+        if (s.at(i) == '>' && s.at(i+1) == '>') //check double >> for output redirection
+        {
+            
+            int size = s.length();
+            string lhs = s.substr(0,i);
+            string rhs = s.substr(i+2,size);
+            
+            DoubleGreaterThan* z;
+            if (par) z = new DoubleGreaterThan(parse(rhs),parse(parenth_part));
+            else z = new DoubleGreaterThan(parse(rhs),parse(lhs));
+            return z;
+            
+        }
+        
+        if (s.at(i) == '>' && s.at(i+1) != '>') //checks for > for output redirection
+        {
+            
+            int size = s.length();
+
+            string lhs = s.substr(0,i);
+            string rhs = s.substr(i+1,size);
+            
+            stringstream ss (lhs);
+            string file;
+            ss >> file;
+            
+            GreaterThan* w;
+            if (par) w = new GreaterThan(parse(rhs),parse(parenth_part));
+            else w = new GreaterThan(parse(rhs),parse(lhs));
+            return w;
+            
+        }
+        
+        if (s.at(i) == '&' && s.at(i+1) == '&') //checks for and
         {
             
             int size = s.length();
@@ -131,18 +188,15 @@ Runcmd* Parse::parse(string& s)
             
         }
         
-        if (s.substr(i,4) == "exit" && (s.length() == i+4 || s.at(i+4) == ' '))
+
+        if (s.substr(i,4) == "exit" && (s.length() == i+4 || s.at(i+4) == ' ')) //checks for exit
         {
         
             Exit* ex = new Exit();
             return ex;
         
         }
-        
-         
-        
-        
-        
+
         
         
     }
@@ -153,6 +207,5 @@ Runcmd* Parse::parse(string& s)
     else g = new Execvpcmd(s);
     return g;
     
-    
-    
+
 }
