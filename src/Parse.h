@@ -10,6 +10,10 @@
 #include "Connector.h"
 #include "Execvpcmd.h"
 #include "Exit.h"
+#include "DoubleGreaterThan.h"
+#include "GreaterThan.h"
+#include "LessThan.h"
+#include "Stick.h"
 
 #include <string>
 #include <iostream>
