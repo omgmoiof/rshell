@@ -8,3 +8,4 @@
         cmd = s;
     }
     
+    std::string Command::getCmd() {return cmd;}
