@@ -11,3 +11,6 @@ ls || touch readme
 ls; echo hi
 touch readme; echo killme
 echo a || echo b && echo c
+
+sort < hi.txt; ls; pwd
+sort < hi.txt; sort < hi.txt; sort < hi.txt;
