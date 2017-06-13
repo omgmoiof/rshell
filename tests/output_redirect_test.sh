@@ -27,3 +27,4 @@ hi.txt >
         hi.txt > hi.txt
 hi.txt               >hi.txt
 
+cat < existingInputFile | tr A-Z a-z | tee newOutputFile1 | tr a-z A-Z > newOutputFile2
