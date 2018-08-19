@@ -16,44 +16,44 @@ Execvpcmd::Execvpcmd(std::string& s) : Command(s)
 
 bool Execvpcmd::run()
 {
-   stringstream s;
-   s.str(cmd);
-   vector<string> a;
+   stringstream strstm;
+   strstm.str(cmd);
+   vector<string> alpha;
    string m, n;
-   s >> m;
-   a.push_back(m);
-   while(s >> n)
+   strstm >> m;
+   alpha.push_back(m);
+   while(strstm >> n)
    {
-       a.push_back(n);
+       alpha.push_back(n);
    }
    
-   char ** b = new char * [a.size() + 1];
+   char ** beta = new char * [alpha.size() + 1];
    
-   for (unsigned i = 0; i < a.size(); i++)
+   for (unsigned i = 0; i < alpha.size(); i++)
    {
-       b[i] = (char *)(a[i].c_str());
+       beta[i] = (char *)(alpha[i].c_str());
    }
    
-   b[a.size()] = NULL;
+   beta[alpha.size()] = NULL;
 
    
     string flag;
     string info;
     
-    if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && a.size() > 1)
+    if((cmd.at(0) == '[' || cmd.substr(0,4) == "test") && alpha.size() > 1)
     {
                 
-        if(a.size() != 2)
+        if(alpha.size() != 2)
         {
-            flag = a.at(1);
-            info = a.at(2);
+            flag = alpha.at(1);
+            info = alpha.at(2);
         }
         
         else
         {
                     
             flag = "-e"; //if e flag is detected
-            info = a.at(1);
+            info = alpha.at(1);
         }
                 
         struct stat testf;
@@ -108,7 +108,7 @@ bool Execvpcmd::run()
         
         case 0:
         
-            execvp(m.c_str(), b); //Executes parent/child process
+            execvp(m.c_str(), beta); //Executes parent/child process
             perror(cmd.c_str());
             exit(0);
        
